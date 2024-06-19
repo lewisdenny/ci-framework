@@ -494,7 +494,7 @@ class HostNetworkRange(ansible_encoding.RawConvertibleObject):
         ] = None,
         length: typing.Union[int, str, None] = None,
     ):
-        """Creates a network range instance form it's net and limits.
+        """Creates a network range instance from it's net and limits.
 
         Creates a range instance for the provided network based on the
         given limits start and end (or length instead of end if provided).
@@ -565,7 +565,7 @@ class HostNetworkRange(ansible_encoding.RawConvertibleObject):
         """Fetches the IP version of a range in dict format.
 
         Args:
-            raw_range: The range as a dictionary that for which the
+            raw_range: The range as a dictionary for which the
             version is requested.
 
         Returns:
@@ -574,7 +574,7 @@ class HostNetworkRange(ansible_encoding.RawConvertibleObject):
 
         Raises:
             exceptions.NetworkMappingValidationError: If the range is
-                malformatted and contains IPs poiting to IPv4 and IPv6
+                malformed and contains IPs pointing to IPv4 and IPv6
                 at the same time.
         """
         if (
@@ -583,10 +583,10 @@ class HostNetworkRange(ansible_encoding.RawConvertibleObject):
         ):
             return None
 
-        start_version = cls.__get_field_ip_net_version(
+        start_version = cls.get_field_ip_net_version(
             raw_range.get(cls.__FIELD_RANGE_START, None)
         )
-        end_version = cls.__get_field_ip_net_version(
+        end_version = cls.get_field_ip_net_version(
             raw_range.get(cls.__FIELD_RANGE_END, None)
         )
 
@@ -628,7 +628,7 @@ class HostNetworkRange(ansible_encoding.RawConvertibleObject):
         Args:
             network: The network to which the range belongs to.
             raw_range: The dictionary that contains the range data
-                as key-values of its start, end and/or lenth.
+                as key-values of its start, end and/or length.
 
         Returns:
             An instance of the given range.
@@ -842,7 +842,7 @@ class HostNetworkRange(ansible_encoding.RawConvertibleObject):
             ) from err
 
     @staticmethod
-    def __get_field_ip_net_version(raw_field: str) -> typing.Union[int, None]:
+    def get_field_ip_net_version(raw_field: str) -> typing.Union[int, None]:
         if not raw_field:
             return None
 
@@ -894,6 +894,129 @@ class HostNetworkRange(ansible_encoding.RawConvertibleObject):
         return f"{self.__start_ip}-{self.__end_ip}"
 
 
+class HostNetworkRoute(ansible_encoding.RawConvertibleObject):
+    """Parser and validator of network routes
+
+    Handles the parsing and validation of a network route based on two
+    paramerters: destination and gateway.
+    Supports both IPv4 and IPv6 routes.
+    """
+
+    __FIELD_ROUTE_DESTINATION = "destination"
+    __FIELD_ROUTE_GATEWAY = "gateway"
+
+    def __init__(
+        self,
+        destination: typing.Union[
+            ipaddress.IPv4Address, ipaddress.IPv6Address, str, int, None
+        ] = None,
+        gateway: typing.Union[
+            ipaddress.IPv4Address, ipaddress.IPv6Address, str, int, None
+        ] = None,
+    ):
+        """Creates a network route instance.
+
+        Creates a route instance for the provided network based on the
+        given destination and gateway.
+
+        Args:
+            destination: The destination network for the route.
+            gateway: The gateway address to use for packets
+            matching the destination.
+        Raises:
+            ValueError: If destination is not provided
+            exceptions.NetworkMappingValidationError:
+                If the end of the range if behind the start.
+                If start/end IP are not of the same family of the
+                    given network.
+                If the start/end/legnth ternary is out of range
+                    of the network.
+                If any format error exists of one of the inputs.
+        """
+        if not destination:
+            raise ValueError("destination is a mandatory argument")
+        self.__destination = ipaddress.ip_network(destination)
+        self.__gateway = ipaddress.ip_network(gateway) if gateway else None
+
+    @property
+    def destination(self) -> typing.Union[ipaddress.IPv4Address, ipaddress.IPv6Address]:
+        """The route destination."""
+        return self.__destination
+
+    @property
+    def gateway(self) -> typing.Union[ipaddress.IPv4Address, ipaddress.IPv6Address]:
+        """The gateway to use for the destination"""
+        return self.__gateway
+
+    @classmethod
+    def from_raw(
+        cls,
+        raw_route: typing.Union[typing.Dict[str, typing.Any], str],
+    ) -> "HostNetworkRoute":
+        """Parses and validated a route from its dict representation.
+
+        The route raw definition must adhere to the following format:
+            destination: <Destination IP>
+            gateway: <Gateway IP>
+
+        Args:
+            raw_route: The dictionary that contains the range data
+                as key-values of its destination and gateway.
+
+        Returns:
+            An instance of the given route.
+
+        Raises:
+            exceptions.NetworkMappingValidationError: When the format
+                of the provided route fields is not correct.
+        """
+        if raw_route and not isinstance(raw_route, (dict, str)):
+            raise exceptions.NetworkMappingValidationError(
+                "raw_route argument must be a dict or a string",
+                invalid_value=raw_route,
+            )
+
+        return HostNetworkRoute(
+            # network,
+            destination=raw_route.get(cls.__FIELD_ROUTE_DESTINATION, None),
+            gateway=raw_route.get(cls.__FIELD_ROUTE_GATEWAY, None),
+        )
+
+    @classmethod
+    def get_version_from_raw(
+        cls,
+        raw_route: typing.Union[typing.Dict[str, typing.Any], str],
+    ) -> int:
+        """Fetches the IP version of a route in dict format.
+
+        Args:
+            raw_route: The route as a dictionary for which the
+            version is requested.
+
+        Returns:
+            The version of the route.
+
+        Raises:
+            exceptions.NetworkMappingValidationError: If the route is
+                malformed and destination and gateway are not the same
+                IP version
+        """
+        destination_version = HostNetworkRange.get_field_ip_net_version(
+            raw_route.get(cls.__FIELD_ROUTE_DESTINATION, None)
+        )
+        gateway_version = HostNetworkRange.get_field_ip_net_version(
+            raw_route.get(cls.__FIELD_ROUTE_GATEWAY, None)
+        )
+
+        if destination_version and gateway_version and (destination_version != gateway_version):
+            raise exceptions.NetworkMappingValidationError(
+                "destination and gateway are mixed IP versions",
+                invalid_value=raw_route,
+            )
+
+        return destination_version
+
+
 class SubnetBasedNetworkToolDefinition:
     """
     Handles the parsing and validation of networking configuration for a tool
@@ -902,11 +1025,17 @@ class SubnetBasedNetworkToolDefinition:
     This class is responsible for ensuring that the parsed ranges are part of
     the selected network and that their format contains a proper IPv4/6
     network address.
+
+    This class is also responsible for optional route configuration and making
+    sure the felids are valid
     """
 
     __FIELD_RANGES = "ranges"
     __FIELD_RANGES_IPV4 = "ranges-v4"
     __FIELD_RANGES_IPV6 = "ranges-v6"
+    __FIELD_ROUTES = "routes"
+    __FIELD_ROUTES_IPV4 = "routes-v4"
+    __FIELD_ROUTES_IPV6 = "routes-v6"
 
     def __init__(
         self,
@@ -917,8 +1046,8 @@ class SubnetBasedNetworkToolDefinition:
         """Initializes a SubnetBasedNetworkToolDefinition instance.
 
         Args:
-            network: The network to which the tool blongs to.
-            raw_config: The dictionary that contains the ranges
+            network: The network to which the tool belongs to.
+            raw_config: The dictionary that contains the ranges and routes
                 of the tool.
             object_name: The name of the parsed tool.
         """
@@ -928,6 +1057,9 @@ class SubnetBasedNetworkToolDefinition:
         self.__object_name = object_name
         self.__ipv4_ranges: typing.List[HostNetworkRange] = []
         self.__ipv6_ranges: typing.List[HostNetworkRange] = []
+        self.__ipv4_routes: typing.List[HostNetworkRoute] = []
+        self.__ipv6_routes: typing.List[HostNetworkRoute] = []
+
         self.__parse_raw(raw_config)
 
     def __parse_raw(self, raw_definition: typing.Dict[str, typing.Any]):
@@ -941,6 +1073,16 @@ class SubnetBasedNetworkToolDefinition:
             parent_name=self.__object_name,
             alone_field=self.__FIELD_RANGES,
         )
+        _validate_fields_one_of(
+            [
+                self.__FIELD_ROUTES,
+                self.__FIELD_ROUTES_IPV4,
+                self.__FIELD_ROUTES_IPV6,
+            ],
+            raw_definition,
+            parent_name=self.__object_name,
+            alone_field=self.__FIELD_ROUTES,
+        )
 
         self.__parse_raw_range_field(raw_definition, self.__FIELD_RANGES)
         self.__parse_raw_range_field(
@@ -948,6 +1090,14 @@ class SubnetBasedNetworkToolDefinition:
         )
         self.__parse_raw_range_field(
             raw_definition, self.__FIELD_RANGES_IPV6, ip_version=6
+        )
+
+        self.__parse_raw_route_field(raw_definition, self.__FIELD_ROUTES)
+        self.__parse_raw_route_field(
+            raw_definition, self.__FIELD_ROUTES_IPV4, ip_version=4
+        )
+        self.__parse_raw_route_field(
+            raw_definition, self.__FIELD_ROUTES_IPV6, ip_version=6
         )
 
     def __parse_raw_range_field(
@@ -983,6 +1133,16 @@ class SubnetBasedNetworkToolDefinition:
         """The parsed IPv6 ranges."""
         return self.__ipv6_ranges
 
+    @property
+    def routes_ipv4(self) -> typing.List[HostNetworkRoute]:
+        """The parsed IPv4 routes."""
+        return self.__ipv4_routes
+
+    @property
+    def routes_ipv6(self) -> typing.List[HostNetworkRoute]:
+        """The parsed IPv6 routes."""
+        return self.__ipv6_routes
+
     def __hash__(self) -> int:
         return hash(
             (
@@ -1001,6 +1161,26 @@ class SubnetBasedNetworkToolDefinition:
             and self.__ipv4_ranges == other.__ipv4_ranges
             and self.__ipv6_ranges == other.__ipv6_ranges
         )
+
+    def __parse_raw_route_field(
+        self, raw_definition, field_name: str, ip_version: int = None
+    ):
+        if field_name in raw_definition:
+            routes = _validate_parse_field_type(
+                field_name,
+                raw_definition,
+                list,
+                parent_name=self.__object_name,
+            )
+
+            for route in routes:
+                ipv4_route, ipv6_route = self.__network.parse_route_from_raw(
+                    route, ip_version=ip_version
+                )
+                if ipv4_route:
+                    self.__ipv4_routes.append(ipv4_route)
+                if ipv6_route:
+                    self.__ipv6_routes.append(ipv6_route)
 
 
 class MultusNetworkDefinition(SubnetBasedNetworkToolDefinition):
@@ -1377,6 +1557,68 @@ class NetworkDefinition:
 
         return self.__ipv4_network, self.__ipv6_network
 
+    def __pick_routes_from_raw(
+        self, raw_definition, ip_version: int = None
+    ) -> typing.Tuple[
+        typing.Union[ipaddress.IPv4Network, None],
+        typing.Union[ipaddress.IPv6Network, None],
+    ]:
+        """Gets the built-in networks (IPv4/6) for the given raw range
+
+        Gets the networks that applies for a range based on its IP version.
+
+        Args:
+            raw_definition: The full network definition as a dict.
+            ip_version: IP version of the requested range. If not given the
+                version will be inferred from the raw_definition.
+
+        Returns: A tuple with the IPv4 and IPv6 networks.
+            If the range targets
+            only the IPv4 net only that one is returned. Same for the IPv6 one.
+            If the range targets both elements of the tuple are returned.
+
+        Raises:
+            exceptions.NetworkMappingValidationError:
+                If the content of the range is invalid.
+                If the range content doesn't match the requested IP version.
+                If the network doesn't support the requested IP version.
+
+        """
+        # Fetch the IP version of the given range based on it's fields.
+        range_version = HostNetworkRoute.get_version_from_raw(raw_definition)
+
+        # If given (can be empty if it applies to IPv4 and 6) check if it's
+        # the expected one
+        if range_version and ip_version and range_version != ip_version:
+            raise exceptions.NetworkMappingValidationError(
+                f"expected IPv{ip_version} range but "
+                f"v{range_version} was given for net {self.__name}",
+                invalid_value=str(raw_definition),
+            )
+
+        # If the network is not configured with the requested IP version
+        # raise an explicit exception
+        selected_version = range_version or ip_version
+        if selected_version and (selected_version == 6 and not self.__ipv6_network):
+            raise exceptions.NetworkMappingValidationError(
+                f"IPv6 ranges are not supported in {self.__name} "
+                "network cause it's IPv4 only",
+                invalid_value=str(raw_definition),
+            )
+        if selected_version and (selected_version == 4 and not self.__ipv4_network):
+            raise exceptions.NetworkMappingValidationError(
+                f"IPv4 ranges are not supported in {self.__name} "
+                "network cause it's IPv6 only",
+                invalid_value=str(raw_definition),
+            )
+        if selected_version:
+            return (
+                self.__ipv4_network if selected_version == 4 else None,
+                self.__ipv6_network if selected_version == 6 else None,
+            )
+
+        return self.__ipv4_network, self.__ipv6_network
+
     def __parse_raw(self, raw_definition: typing.Dict[str, typing.Any]):
         self.__parse_raw_network(raw_definition)
         self.__parse_raw_gateway(raw_definition)
@@ -1594,6 +1836,35 @@ class NetworkDefinition:
             and self.__netconfig_config == other.__netconfig_config
             and self.__metallb_config == other.__metallb_config
         )
+
+    def parse_route_from_raw(
+        self, raw_definition: typing.Dict[str, typing.Any], ip_version: int = None
+    ) -> typing.Tuple[
+        typing.Union[HostNetworkRoute, None],
+        typing.Union[HostNetworkRoute, None],
+    ]:
+        """Creates HostNetworkRoute instance for the route based on their
+            definition
+
+        Args:
+            raw_definition: The full network definition as a dict.
+            ip_version: IP version of the requested route. If not given the
+                version will be inferred from the raw_definition.
+
+        Returns: Tuple of the IPv4 and IPv6 routes for the network.
+            If version is specified only one of the items of the tuple will be
+            filled.
+        """
+        ipv4_route_net, ipv6_route_net = self.__pick_routes_from_raw(
+            raw_definition, ip_version=ip_version
+        )
+        ipv4_route = (
+            HostNetworkRoute.from_raw(raw_definition) if ipv4_route_net else None
+        )
+        ipv6_route = (
+            HostNetworkRoute.from_raw(raw_definition) if ipv6_route_net else None
+        )
+        return ipv4_route, ipv6_route
 
 
 @dataclasses.dataclass(frozen=True)

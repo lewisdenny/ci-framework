@@ -106,6 +106,23 @@ def _map_host_network_range_to_output(
     )
 
 
+def _map_host_network_route_to_output(
+    host_net_route: networking_definition.HostNetworkRoute,
+) -> typing.Union[
+    networking_env_definitions.MappedIpv4NetworkRoute,
+    networking_env_definitions.MappedIpv6NetworkRoute,
+]:
+    args = [
+        host_net_route.destination,
+        host_net_route.gateway,
+    ]
+    return (
+        networking_env_definitions.MappedIpv4NetworkRoute(*args)
+        if host_net_route.destination.version == 4
+        else networking_env_definitions.MappedIpv6NetworkRoute(*args)
+    )
+
+
 class NetworkingInstanceMapper:
     """Converts the Networking Definition and facts into a MappedInstance
 
@@ -610,7 +627,7 @@ class NetworkingNetworksMapper:
             else None
         )
         multus = (
-            self.__build_network_tool_common(
+            self.__build_network_tool_route(
                 net_def.multus_config,
                 networking_env_definitions.MappedMultusNetworkConfig,
             )
@@ -645,6 +662,32 @@ class NetworkingNetworksMapper:
             [
                 _map_host_network_range_to_output(ip_range)
                 for ip_range in tool_net_def.ranges_ipv6
+            ],
+        ]
+        return tool_type(*args_list)
+
+
+    @staticmethod
+    def __build_network_tool_route(
+        tool_net_def: networking_definition.SubnetBasedNetworkToolDefinition,
+        tool_type: typing.Type,
+    ) -> networking_env_definitions.MappedMultusNetworkConfig:
+        args_list = [
+            [
+                _map_host_network_range_to_output(ip_range)
+                for ip_range in tool_net_def.ranges_ipv4
+            ],
+            [
+                _map_host_network_range_to_output(ip_range)
+                for ip_range in tool_net_def.ranges_ipv6
+            ],
+            [
+                _map_host_network_route_to_output(ip_route)
+                for ip_route in tool_net_def.routes_ipv4
+            ],
+            [
+                _map_host_network_route_to_output(ip_route)
+                for ip_route in tool_net_def.routes_ipv6
             ],
         ]
         return tool_type(*args_list)

@@ -17,6 +17,13 @@ networks:
         ranges:
           - start: 30
             end: 39
+        routes:
+          - destination: "192.168.121.0/24"
+            gateway: "192.168.122.1"
+          - destination: "172.168.121.0/24"
+            gateway: "172.168.122.1"
+          # - destination: "2001:db8:3333:4444:5555:6666:7777:8888"
+          #   gateway: "2001:db8:3333:4444:CCCC:DDDD:EEEE:FFFF"
       netconfig:
         ranges:
           - start: "192.168.122.40"

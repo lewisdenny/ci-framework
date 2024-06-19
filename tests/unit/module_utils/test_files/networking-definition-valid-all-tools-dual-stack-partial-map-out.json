@@ -34,7 +34,18 @@
               "end_host": 39,
               "length": 10
             }
-          ]
+          ],
+          "ipv4_routes": [
+            {
+              "destination": "192.168.121.0/24",
+              "gateway": "192.168.122.1/32"
+            },
+            {
+              "destination": "172.168.121.0/24",
+              "gateway": "172.168.122.1/32"
+            }
+          ],
+          "ipv6_routes": []
         },
         "netconfig": {
           "ipv4_ranges": [
@@ -104,7 +115,9 @@
               "end_host": 39,
               "length": 10
             }
-          ]
+          ],
+          "ipv4_routes": [],
+          "ipv6_routes": []
         },
         "netconfig": {
           "ipv4_ranges": [],
@@ -224,7 +237,9 @@
               "end_host": 39,
               "length": 10
             }
-          ]
+          ],
+          "ipv4_routes": [],
+          "ipv6_routes": []
         },
         "netconfig": {
           "ipv4_ranges": [
