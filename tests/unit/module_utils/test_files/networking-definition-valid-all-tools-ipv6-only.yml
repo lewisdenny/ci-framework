@@ -11,6 +11,9 @@ networks:
         ranges:
           - start: 30
             end: 39
+        routes:
+          - destination: "fdc0:8b54:108a:c949::/64"
+            gateway: "fdc0:8b54:108a:c948::1"
       netconfig:
         ranges:
           - start: 40
