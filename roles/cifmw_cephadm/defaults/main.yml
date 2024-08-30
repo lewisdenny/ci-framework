@@ -61,7 +61,7 @@ cifmw_cephadm_apply_ceph_conf_overrides_on_update: false
 cifmw_cephadm_standalone: false
 cifmw_cephadm_default_container: false
 cifmw_cephadm_single_host_defaults: false
-cifmw_cephadm_extra_args: ""
+cifmw_cephadm_extra_args: null
 cifmw_cephadm_pacific_filter: "16.*"
 # The path of the rendered rgw spec file
 cifmw_ceph_rgw_spec_path: /tmp/ceph_rgw.yml
@@ -90,8 +90,8 @@ cifmw_ceph_rgw_config:
   rgw_max_attr_size: 1024
 cifmw_cephadm_cephfs_name: "cephfs"
 cifmw_ceph_dashboard_spec_path: /tmp/ceph_dashboard.yml
-cifmw_cephadm_certificate: ""
-cifmw_cephadm_key: ""
+cifmw_cephadm_certificate: null
+cifmw_cephadm_key: null
 cifmw_cephadm_dashboard_port: 8444
 cifmw_cephadm_grafana_admin_user: 'admin'
 cifmw_cephadm_grafana_admin_password: '/home/grafana_password.yml'

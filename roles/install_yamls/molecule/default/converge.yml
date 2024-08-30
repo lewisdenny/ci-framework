@@ -71,9 +71,9 @@
       vars:
         expected_output:
           OPENSTACK_REPO: "{{ ansible_user_dir }}/src/github.com/openstack-k8s-operators/openstack-operator"
-          OPENSTACK_BRANCH: ""
+          OPENSTACK_BRANCH: null
           BAREMETAL_REPO: "{{ ansible_user_dir }}/src/github.com/openstack-k8s-operators/openstack-baremetal-operator"
-          BAREMETAL_BRANCH: ""
+          BAREMETAL_BRANCH: null
       ansible.builtin.assert:
         that:
           - cifmw_install_yamls_operators_repo == expected_output

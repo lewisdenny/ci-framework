@@ -33,7 +33,7 @@ cifmw_build_containers_registry_namespace: podified-master-centos9
 cifmw_build_containers_push_registry: quay.io
 cifmw_build_containers_hotfix_images: []
 cifmw_build_containers_hotfix_rpms_paths: []
-cifmw_build_containers_hotfix_tag: ""
+cifmw_build_containers_hotfix_tag: null
 cifmw_build_containers_run_hotfix: false
 cifmw_build_containers_volume_mounts:
   - "/usr/share/tcib/container-images:/usr/share/tcib/container-images:z"

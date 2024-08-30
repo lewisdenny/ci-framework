@@ -161,13 +161,13 @@ cifmw_test_operator_ansibletest_container: openstack-ansible-tests
 cifmw_test_operator_ansibletest_image: "{{ cifmw_test_operator_ansibletest_registry }}/{{ cifmw_test_operator_ansibletest_namespace }}/{{ cifmw_test_operator_ansibletest_container }}"
 cifmw_test_operator_ansibletest_image_tag: current-podified
 cifmw_test_operator_ansibletest_compute_ssh_key_secret_name: "dataplane-ansible-ssh-private-key-secret"
-cifmw_test_operator_ansibletest_workload_ssh_key_secret_name: ""
-cifmw_test_operator_ansibletest_ansible_git_repo: ""
-cifmw_test_operator_ansibletest_ansible_playbook_path: ""
-cifmw_test_operator_ansibletest_ansible_collection: ""
-cifmw_test_operator_ansibletest_ansible_var_files: ""
-cifmw_test_operator_ansibletest_ansible_extra_vars: ""
-cifmw_test_operator_ansibletest_ansible_inventory: ""
+cifmw_test_operator_ansibletest_workload_ssh_key_secret_name: null
+cifmw_test_operator_ansibletest_ansible_git_repo: null
+cifmw_test_operator_ansibletest_ansible_playbook_path: null
+cifmw_test_operator_ansibletest_ansible_collection: null
+cifmw_test_operator_ansibletest_ansible_var_files: null
+cifmw_test_operator_ansibletest_ansible_extra_vars: null
+cifmw_test_operator_ansibletest_ansible_inventory: null
 cifmw_test_operator_ansibletest_openstack_config_map: "openstack-config"
 cifmw_test_operator_ansibletest_openstack_config_secret: "openstack-config-secret"
 cifmw_test_operator_ansibletest_debug: false

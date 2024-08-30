@@ -22,3 +22,4 @@
 
 - name: Wait For iDRAC To Be Online (Using SSH)
   ansible.builtin.wait_for:
+    timeout: 300

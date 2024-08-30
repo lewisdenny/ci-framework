@@ -25,7 +25,7 @@ cifmw_openshift_adm_cert_expire_date_file: >-
     (cifmw_openshift_adm_basedir, 'artifacts', '.ocp_cert_not_after') |
     ansible.builtin.path_join
   }}
-cifmw_openshift_adm_op: ""
+cifmw_openshift_adm_op: null
 cifmw_openshift_adm_dry_run: false
 cifmw_openshift_adm_retry_count: 100
 cifmw_openshift_adm_stable_period: 3m

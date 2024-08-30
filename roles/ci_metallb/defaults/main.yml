@@ -53,4 +53,4 @@ cifmw_ci_metallb_operator_config:
   spec:
     logLevel: debug
     nodeSelector:
-      node-role.kubernetes.io/worker: ""
+      node-role.kubernetes.io/worker: null

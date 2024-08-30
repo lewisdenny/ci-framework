@@ -22,7 +22,7 @@ cifmw_build_push_container_basedir: "{{ cifmw_basedir | default(ansible_user_dir
 cifmw_build_push_container_artifacts: "{{ (cifmw_build_push_container_basedir, 'artifacts', 'build_push_container')| ansible.builtin.path_join }}"
 
 # Build vars
-cifmw_build_push_container_name:
+cifmw_build_push_container_name: null
 cifmw_build_push_container_build_context_path: "{{ (ansible_user_dir, zuul.project.src_dir) | ansible.builtin.path_join }}"
 cifmw_build_push_container_containerfile_name: Containerfile
 cifmw_build_push_container_containerfile_path: >-
@@ -42,7 +42,7 @@ cifmw_build_push_container_patch_number: "{{ zuul.change }}"
 cifmw_build_push_container_tag_override: []
 # Push vars
 cifmw_build_push_container_push: false
-cifmw_build_push_container_registry_name:
-cifmw_build_push_container_registry_username:
-cifmw_build_push_container_registry_password:
+cifmw_build_push_container_registry_name: null
+cifmw_build_push_container_registry_username: null
+cifmw_build_push_container_registry_password: null
 cifmw_build_push_container_registry_tls_verify: true

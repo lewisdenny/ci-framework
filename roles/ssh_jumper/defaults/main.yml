@@ -19,9 +19,9 @@
 # All variables within this role should have a prefix of "cifmw_ssh_jumper"
 
 cifmw_ssh_jumper_config:
-  - hostname:
-    proxy_host:
-    identity_file:
+  - hostname: null
+    proxy_host: null
+    identity_file: null
     patterns: "{{ cifmw_ssh_jumper_defaults.patterns }}"
     target: "{{ cifmw_ssh_jumper_defaults.target }}"
     ssh_dir: "{{ cifmw_ssh_jumper_defaults.ssh_dir }}"

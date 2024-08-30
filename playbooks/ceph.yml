@@ -316,7 +316,7 @@
         cidr: 64
 
     - name: Generate a cephx key
-      cephx_key:
+      cephx_key: # noqa: yaml[empty-values]
       register: cephx
       no_log: true
 
@@ -359,9 +359,9 @@
       loop: "{{ _target_hosts }}"
 
     # cifmw_cephadm_vip is the VIP reserved in the Storage network
-    - name: Set VIP var as empty string
+    - name: Set cifmw_cephadm_vip var to null
       ansible.builtin.set_fact:
-        cifmw_cephadm_vip: ""
+        cifmw_cephadm_vip: null
 
     - name: Process VIP
       ansible.builtin.include_role:

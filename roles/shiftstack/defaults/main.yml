@@ -27,7 +27,7 @@ cifmw_shiftstack_client_pvc_manifest: "{{ cifmw_shiftstack_client_pod_name }}_pv
 cifmw_shiftstack_cluster_name: "ostest"
 cifmw_shiftstack_installation_dir: "{{ cifmw_shiftstack_basedir }}/installation"
 cifmw_shiftstack_project_name: "shiftstack"
-cifmw_shiftstack_qa_gerrithub_change: ""
+cifmw_shiftstack_qa_gerrithub_change: null
 cifmw_shiftstack_qa_repo: "https://review.gerrithub.io/shiftstack/shiftstack-qa"
 cifmw_shiftstack_run_playbook: "ocp_testing.yaml"
 cifmw_shiftstack_sc: "local-storage"

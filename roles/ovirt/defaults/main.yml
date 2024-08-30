@@ -21,7 +21,7 @@
 cifmw_ovirt_artifacts_basedir: "{{ cifmw_basedir | default(ansible_user_dir ~ '/ci-framework-data') }}/artifacts"
 cifmw_ovirt_ssh_key_type: "{{ cifmw_ssh_keytype | default('ecdsa') }}"
 cifmw_ovirt_ssh_key_size: "{{ cifmw_ssh_keysize | default(521) }}"
-cifmw_ovirt_ssh_public_key: ""
+cifmw_ovirt_ssh_public_key: null
 cifmw_ovirt_vm_timeout: 300
 cifmw_ovirt_sdk_package: "https://github.com/oVirt/python-ovirt-engine-sdk4/releases/download/4.6.2/python3-ovirt-engine-sdk4-4.6.2-1.el9.x86_64.rpm"
 

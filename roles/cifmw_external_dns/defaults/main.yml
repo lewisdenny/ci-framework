@@ -14,7 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-cifmw_external_dns_domain: ""
+cifmw_external_dns_domain: null
 cifmw_external_dns_name: "{{ cifmw_external_dns_domain | regex_replace('\\.','-')}}-dns"
 cifmw_external_dns_labels: {}
 cifmw_external_dns_cert_name: "{{ cifmw_external_dns_domain | regex_replace('\\.','-')}}-cert"
@@ -34,7 +34,7 @@ cifmw_external_dns_cert_issuer_duration: 43800h0m0s
 cifmw_external_dns_retries: 60
 cifmw_external_dns_delay: 10
 cifmw_external_dns_clean_cert: true
-cifmw_external_dns_masq_cluster_ip: ""
+cifmw_external_dns_masq_cluster_ip: null
 cifmw_external_dns_vip_ext: {}
 cifmw_external_dns_vip_int: {}
 cifmw_external_dns_extra_subj_alt_names: {}

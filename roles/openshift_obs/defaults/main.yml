@@ -22,7 +22,7 @@ cifmw_openshift_obs_definition:
     name: observability-operator
     namespace: openshift-operators
     labels:
-      operators.coreos.com/observability-operator.openshift-operators: ""
+      operators.coreos.com/observability-operator.openshift-operators: null
   spec:
     channel: development
     installPlanApproval: Automatic

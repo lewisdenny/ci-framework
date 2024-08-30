@@ -29,7 +29,7 @@
       - key: "{{ _repo_operator_name | upper }}_REPO"
         value: "{{ ansible_user_dir }}/{{ zuul_item.project.src_dir }}"
       - key: "{{ _repo_operator_name | upper }}_BRANCH"
-        value: ""
+        value: null
   ansible.builtin.set_fact:
     cifmw_install_yamls_operators_repo: "{{ cifmw_install_yamls_operators_repo | default({}) | combine(_repo_operator_info | items2dict) }}"
   loop: "{{ zuul['items'] }}"

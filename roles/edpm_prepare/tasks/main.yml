@@ -25,7 +25,7 @@
     operators_build_output: "{{ (cifmw_operator_build_output | default({'operators':{}})).operators }}"
   ansible.builtin.set_fact:
     _install_yamls_repos:
-      OPENSTACK_BRANCH: ""
+      OPENSTACK_BRANCH: null
       GIT_CLONE_OPTS': "-l"
       OPENSTACK_REPO': "{{ operators_build_output[cifmw_operator_build_meta_name].git_src_dir  }}"
 

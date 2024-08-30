@@ -22,8 +22,8 @@ cifmw_dlrn_report_workspace: "{{ cifmw_basedir | default(ansible_user_dir ~ '/ci
 cifmw_dlrn_report_dlrnapi_user: "{{ dlrnapi_user | default('review_rdoproject_org') }}"
 cifmw_dlrn_report_kerberos_auth: false
 cifmw_dlrn_report_result: true
-cifmw_dlrn_report_dlrnapi_host_principal: ""
-cifmw_dlrn_report_keytab: ""
-cifmw_dlrn_report_krb_user_realm: ""
+cifmw_dlrn_report_dlrnapi_host_principal: null
+cifmw_dlrn_report_keytab: null
+cifmw_dlrn_report_krb_user_realm: null
 cifmw_dlrn_report_zuul_log_path: "https://logserver.rdoproject.org"
-cifmw_dlrn_report_promote_source: ""
+cifmw_dlrn_report_promote_source: null

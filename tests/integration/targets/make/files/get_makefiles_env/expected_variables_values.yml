@@ -31,7 +31,7 @@ variables:
   BMO_IRONIC_HOST: "192.168.122.10"
   BMO_PROVISIONING_INTERFACE: "enp6s0"
   BMO_REPO: "https://github.com/metal3-io/baremetal-operator"
-  BMO_SETUP: ""
+  BMO_SETUP: null
   BM_INSTANCE_NAME_PREFIX: "edpm-compute"
   BM_NETWORK_IPADDRESS: "192.168.122.1"
   BM_NETWORK_NAME: "default"
@@ -54,7 +54,7 @@ variables:
   CRC_STORAGE_RETRIES: "3"
   CRC_URL: "'https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.19.0/crc-linux-amd64.tar.xz'"
   DATAPLANE_ANSIBLE_SECRET: "dataplane-ansible-ssh-private-key-secret"
-  DATAPLANE_ANSIBLE_USER: ""
+  DATAPLANE_ANSIBLE_USER: null
   DATAPLANE_COMPUTE_1_IP: "192.168.122.101"
   DATAPLANE_COMPUTE_IP: "192.168.122.100"
   DATAPLANE_CONTAINER_TAG: "current-podified"
@@ -86,8 +86,8 @@ variables:
   EDPM_CONTAINER_TAG: "current-podified"
   EDPM_REGISTRY_URL: "quay.io/podified-antelope-centos9"
   EDPM_TOTAL_NODES: "1"
-  GALERA_REPLICAS: ""
-  GIT_CLONE_OPTS: ""
+  GALERA_REPLICAS: null
+  GIT_CLONE_OPTS: null
   GLANCE: "config/samples/glance_v1beta1_glance.yaml"
   GLANCEAPI_DEPL_IMG: "unused"
   GLANCE_BRANCH: "main"

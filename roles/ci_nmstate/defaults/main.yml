@@ -39,7 +39,7 @@ cifmw_ci_nmstate_olm_subscription:
   kind: Subscription
   metadata:
     labels:
-      operators.coreos.com/kubernetes-nmstate-operator.openshift-nmstate: ""
+      operators.coreos.com/kubernetes-nmstate-operator.openshift-nmstate: null
     name: kubernetes-nmstate-operator
     namespace: "{{ cifmw_ci_nmstate_namespace }}"
   spec:
@@ -64,7 +64,7 @@ cifmw_ci_nmstate_nncp_config_template:
     desiredState:
       interfaces: {}
     nodeSelector:
-      node-role.kubernetes.io/worker: ""
+      node-role.kubernetes.io/worker: null
 
 cifmw_ci_nmstate_unmanaged_config_template: {}
 cifmw_ci_nmstate_instances_skip_list: []

@@ -45,6 +45,7 @@
 
         - name: Reboot host after kubelet is reconfigured
           ansible.builtin.reboot:
+            msg: "Rebooting machine now"
 
     - include_role:
         name: start-zuul-console

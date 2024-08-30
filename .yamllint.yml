@@ -1,0 +1,9 @@
+---
+# This expands on the defaults provided by ansible-lint
+#   https://ansible.readthedocs.io/projects/lint/rules/yaml/#yamllint-configuration
+# We don't call yamllint directly, it's called through ansible-lint
+rules:
+  empty-values:
+    forbid-in-block-mappings: true
+    forbid-in-flow-mappings: true
+    forbid-in-block-sequences: true

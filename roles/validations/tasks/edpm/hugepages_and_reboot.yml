@@ -9,7 +9,8 @@
 # Collect facts from the node in question. this will give us an initial state prior to our changes
 # that can be compared with the end state.
 - name: Collect initial state of edpm node
-  ansible.builtin.gather_facts:
+  ansible.builtin.setup:
+    gather_subset: all
   delegate_to: "{{ cifmw_validations_edpm_check_node }}"
   register: initial_node_state
 
@@ -133,7 +134,8 @@
 
 # gather facts again to compare against the initial state.
 - name: Collect post change state of edpm node
-  ansible.builtin.gather_facts:
+  ansible.builtin.setup:
+    gather_subset: all
   delegate_to: "{{ cifmw_validations_edpm_check_node }}"
   register: post_change_node_state
 

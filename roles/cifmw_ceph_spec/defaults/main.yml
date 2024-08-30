@@ -25,7 +25,7 @@ cifmw_ceph_spec_host_to_ip:
 
 # The ceph spec data devices. Should be passed as a YAML multiline string.
 # Use the default from the cifmw_block_device role:
-cifmw_ceph_spec_data_devices:
+cifmw_ceph_spec_data_devices: null
 
 # The path of the rendered spec file
 cifmw_ceph_spec_path: /tmp/ceph_spec.yml

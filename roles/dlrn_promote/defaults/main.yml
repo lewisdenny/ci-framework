@@ -21,8 +21,8 @@
 cifmw_dlrn_promote_workspace: "{{ cifmw_basedir | default(ansible_user_dir ~ '/ci-framework-data') }}"
 cifmw_dlrn_promote_dlrnapi_user: "{{ dlrnapi_user | default('review_rdoproject_org') }}"
 cifmw_dlrn_promote_kerberos_auth: false
-cifmw_dlrn_promote_dlrnapi_host_principal: ""
-cifmw_dlrn_promote_criteria_file: ""
+cifmw_dlrn_promote_dlrnapi_host_principal: null
+cifmw_dlrn_promote_criteria_file: null
 cifmw_dlrn_promote_hash: false
 cifmw_dlrn_promote_hash_promote_content: false
 cifmw_dlrn_promote_ssl_ca_bundle: "/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt"

@@ -1,6 +1,7 @@
 ---
 - name: Collect switch facts
   mellanox.onyx.onyx_facts:
+    gather_subset: version
   register: onyx_facts
   failed_when: false
 

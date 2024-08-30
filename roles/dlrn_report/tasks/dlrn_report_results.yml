@@ -25,7 +25,7 @@
 - name: Set empty value for dlrnapi password
   ansible.builtin.set_fact:
     dlrnapi:
-      password: ""
+      password: null
   when:
     - dlrnapi is defined
     - "'password' not in dlrnapi"

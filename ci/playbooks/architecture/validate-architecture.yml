@@ -161,7 +161,6 @@
         - "{{ cifmw_basedir }}/artifacts/ecdsa_deploy"
 
     - name: Generate needed facts out of local files
-      vars:
       ansible.builtin.set_fact:
         cifmw_ci_gen_kustomize_values_ssh_authorizedkeys: >-
           {{

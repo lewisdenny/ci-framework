@@ -85,7 +85,7 @@ spec:
             - mountPath: /etc/kubernetes/
               name: kubelet-dir
       nodeSelector:
-        node-role.kubernetes.io/master: ""
+        node-role.kubernetes.io/master: null
       priorityClassName: "system-cluster-critical"
       restartPolicy: Always
       securityContext:

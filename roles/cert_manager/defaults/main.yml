@@ -48,7 +48,7 @@ cifmw_cert_manager_olm_subscription:
   kind: Subscription
   metadata:
     labels:
-      operators.coreos.com/openshift-cert-manager-operator.cert-manager-operator: ""
+      operators.coreos.com/openshift-cert-manager-operator.cert-manager-operator: null
     name: openshift-cert-manager-operator
     namespace: "{{ cifmw_cert_manager_operator_namespace }}"
   spec:
